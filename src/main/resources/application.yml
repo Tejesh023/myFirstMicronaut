@@ -1,0 +1,9 @@
+micronaut:
+  application:
+    name: myFirstMicronaut
+
+graphql:
+  enabled: true
+  path: /graphql
+  graphiql: # enables the /graphiql endpoint to test calls against your graph.
+    enabled: true

@@ -16,11 +16,15 @@ repositories {
 }
 
 dependencies {
+    implementation 'org.projectlombok:lombok:1.18.22'
     annotationProcessor("io.micronaut.data:micronaut-data-document-processor")
     annotationProcessor("io.micronaut.serde:micronaut-serde-processor")
-    implementation("io.micronaut.graphql:micronaut-graphql")
+    implementation("io.micronaut.graphql:micronaut-graphql:4.0.1")
     implementation("io.micronaut.serde:micronaut-serde-jackson")
+    implementation("io.micronaut.mongodb:micronaut-mongo-sync")
+    runtimeOnly("org.yaml:snakeyaml")
     runtimeOnly("ch.qos.logback:logback-classic")
+    runtimeOnly("org.projectlombok:lombok")
     testImplementation("io.micronaut:micronaut-http-client")
 }
 
