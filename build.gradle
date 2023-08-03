@@ -18,11 +18,9 @@ repositories {
 dependencies {
     annotationProcessor("io.micronaut.data:micronaut-data-document-processor")
     annotationProcessor("io.micronaut.serde:micronaut-serde-processor")
-    implementation("io.micronaut.data:micronaut-data-mongodb")
     implementation("io.micronaut.graphql:micronaut-graphql")
     implementation("io.micronaut.serde:micronaut-serde-jackson")
     runtimeOnly("ch.qos.logback:logback-classic")
-    runtimeOnly("org.mongodb:mongodb-driver-sync")
     testImplementation("io.micronaut:micronaut-http-client")
 }
 
