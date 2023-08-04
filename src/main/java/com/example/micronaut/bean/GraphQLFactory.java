@@ -1,6 +1,6 @@
 package com.example.micronaut.bean;
 
-import com.example.micronaut.service.HelloDataFetcher;
+import com.example.micronaut.service.GraphQLDataFetchers;
 import graphql.GraphQL;
 import graphql.schema.GraphQLSchema;
 import graphql.schema.idl.RuntimeWiring;
@@ -10,36 +10,49 @@ import graphql.schema.idl.TypeDefinitionRegistry;
 import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.core.io.ResourceResolver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import jakarta.inject.Singleton;
-
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Optional;
 
-@Factory // (1)
+import static graphql.schema.idl.TypeRuntimeWiring.newTypeWiring;
+
+@Factory
 public class GraphQLFactory {
+
+    private static final Logger LOG = LoggerFactory.getLogger(GraphQLFactory.class);
 
     @Bean
     @Singleton
-    public GraphQL graphQL(ResourceResolver resourceResolver, HelloDataFetcher helloDataFetcher) { // (2)
-
+    public GraphQL graphQL(ResourceResolver resourceResolver,
+                           GraphQLDataFetchers graphQLDataFetchers) {
         SchemaParser schemaParser = new SchemaParser();
-        SchemaGenerator schemaGenerator = new SchemaGenerator();
 
-        // Parse the schema.
         TypeDefinitionRegistry typeRegistry = new TypeDefinitionRegistry();
-        typeRegistry.merge(schemaParser.parse(new BufferedReader(new InputStreamReader(
-                resourceResolver.getResourceAsStream("classpath:schema.graphqls").get()))));
+        Optional<InputStream> graphqlSchema = resourceResolver.getResourceAsStream("classpath:schema.graphqls");
 
-        // Create the runtime wiring.
-        RuntimeWiring runtimeWiring = RuntimeWiring.newRuntimeWiring()
-                .type("Query", typeWiring -> typeWiring
-                        .dataFetcher("hello", helloDataFetcher))
-                .build();
+        if (graphqlSchema.isPresent()) {
+            typeRegistry.merge(schemaParser.parse(new BufferedReader(new InputStreamReader(graphqlSchema.get()))));
 
-        // Create the executable schema.
-        GraphQLSchema graphQLSchema = schemaGenerator.makeExecutableSchema(typeRegistry, runtimeWiring);
+            RuntimeWiring runtimeWiring = RuntimeWiring.newRuntimeWiring()
+                    .type(newTypeWiring("Query")
+                            .dataFetcher("bookById", graphQLDataFetchers.getBookByIdDataFetcher()))
+                    .type(newTypeWiring("Book")
+                            .dataFetcher("author", graphQLDataFetchers.getAuthorDataFetcher()))
+                    .build();
 
-        // Return the GraphQL bean.
-        return GraphQL.newGraphQL(graphQLSchema).build();
+            SchemaGenerator schemaGenerator = new SchemaGenerator();
+            GraphQLSchema graphQLSchema = schemaGenerator.makeExecutableSchema(typeRegistry, runtimeWiring);
+
+            return GraphQL.newGraphQL(graphQLSchema).build();
+
+        } else {
+            LOG.debug("No GraphQL services found, returning empty schema");
+            return new GraphQL.Builder(GraphQLSchema.newSchema().build()).build();
+        }
     }
 }
