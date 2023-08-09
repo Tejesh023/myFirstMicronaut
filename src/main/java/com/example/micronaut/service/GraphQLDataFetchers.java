@@ -1,8 +1,8 @@
 package com.example.micronaut.service;
 
 import graphql.schema.DataFetcher;
-import com.example.micronaut.domain.Book;
-import com.example.micronaut.domain.Author;
+import com.example.micronaut.domain.book.Book;
+import com.example.micronaut.domain.book.Author;
 import com.example.micronaut.repository.DbRepository;
 
 import jakarta.inject.Singleton;

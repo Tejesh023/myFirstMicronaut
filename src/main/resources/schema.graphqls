@@ -1,5 +1,29 @@
 type Query {
+    accountById(id: ID): Account
     bookById(id: ID): Book
+}
+
+type Mutation {
+    createBook(book: BookRequest): Book
+}
+
+input BookRequest {
+    name: String
+    pageCount: Int
+    author: AuthorRequest
+}
+
+input AuthorRequest {
+    firstName: String
+    lastName: String
+}
+
+type Account {
+    accountId: String
+    customerId: String
+    identityType: String
+    activeSparksCard: String
+    cvv: String
 }
 
 type Book {

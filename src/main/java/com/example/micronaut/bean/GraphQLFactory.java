@@ -1,5 +1,7 @@
 package com.example.micronaut.bean;
 
+import com.example.micronaut.service.AccountDataFetcher;
+import com.example.micronaut.service.BookServiceImpl;
 import com.example.micronaut.service.GraphQLDataFetchers;
 import graphql.GraphQL;
 import graphql.schema.GraphQLSchema;
@@ -29,7 +31,7 @@ public class GraphQLFactory {
     @Bean
     @Singleton
     public GraphQL graphQL(ResourceResolver resourceResolver,
-                           GraphQLDataFetchers graphQLDataFetchers) {
+                           AccountDataFetcher accountDataFetcher, GraphQLDataFetchers graphQLDataFetchers, BookServiceImpl bookService) {
         SchemaParser schemaParser = new SchemaParser();
 
         TypeDefinitionRegistry typeRegistry = new TypeDefinitionRegistry();
@@ -40,7 +42,10 @@ public class GraphQLFactory {
 
             RuntimeWiring runtimeWiring = RuntimeWiring.newRuntimeWiring()
                     .type(newTypeWiring("Query")
-                            .dataFetcher("bookById", graphQLDataFetchers.getBookByIdDataFetcher()))
+                            .dataFetcher("bookById", graphQLDataFetchers.getBookByIdDataFetcher())
+                            .dataFetcher("accountById", accountDataFetcher.getAccountByIdDataFetcher()))
+                    .type(newTypeWiring("Mutation")
+                            .dataFetcher("createBook", bookService))
                     .type(newTypeWiring("Book")
                             .dataFetcher("author", graphQLDataFetchers.getAuthorDataFetcher()))
                     .build();

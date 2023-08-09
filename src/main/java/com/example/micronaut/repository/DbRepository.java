@@ -1,7 +1,7 @@
 package com.example.micronaut.repository;
 
-import com.example.micronaut.domain.Book;
-import com.example.micronaut.domain.Author;
+import com.example.micronaut.domain.book.Book;
+import com.example.micronaut.domain.book.Author;
 import jakarta.inject.Singleton;
 import java.util.Arrays;
 import java.util.List;

@@ -3,6 +3,7 @@ plugins {
     id("io.micronaut.application") version "4.0.2"
     id("io.micronaut.test-resources") version "4.0.2"
     id("io.micronaut.aot") version "4.0.2"
+    id 'io.franzbecker.gradle-lombok' version '1.14'
 }
 
 version = "0.1"
@@ -16,15 +17,14 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.projectlombok:lombok:1.18.22'
     annotationProcessor("io.micronaut.data:micronaut-data-document-processor")
     annotationProcessor("io.micronaut.serde:micronaut-serde-processor")
     implementation("io.micronaut.graphql:micronaut-graphql:4.0.1")
     implementation("io.micronaut.serde:micronaut-serde-jackson")
-    implementation("io.micronaut.mongodb:micronaut-mongo-sync")
+    implementation("io.micronaut.data:micronaut-data-mongodb")
+    runtimeOnly("org.mongodb:mongodb-driver-sync")
     runtimeOnly("org.yaml:snakeyaml")
     runtimeOnly("ch.qos.logback:logback-classic")
-    runtimeOnly("org.projectlombok:lombok")
     testImplementation("io.micronaut:micronaut-http-client")
 }
 

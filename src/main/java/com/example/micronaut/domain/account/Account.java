@@ -1,7 +1,7 @@
-package com.example.micronaut.domain;
+package com.example.micronaut.domain.account;
 
+import io.micronaut.core.annotation.Introspected;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,7 +13,7 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Introspected
 public class Account {
 
     private String accountId;
@@ -24,4 +24,5 @@ public class Account {
 
     private String activeSparksCard;
 
-    private String cvv; }
+    private String cvv;
+}

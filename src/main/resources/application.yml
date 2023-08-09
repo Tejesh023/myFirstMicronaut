@@ -7,3 +7,6 @@ graphql:
   path: /graphql
   graphiql: # enables the /graphiql endpoint to test calls against your graph.
     enabled: true
+
+mongodb:
+  uri: mongodb+srv://myAtlasDBUser:myatlas-001@myatlasclusteredu.qu4kfdd.mongodb.net/?retryWrites=true&w=majority

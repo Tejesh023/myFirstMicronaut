@@ -1,11 +1,15 @@
-package com.example.micronaut.domain;
+package com.example.micronaut.domain.book;
 
-import io.micronaut.core.annotation.Introspected;
+import io.micronaut.serde.annotation.Serdeable;
+import lombok.Data;
+import lombok.Setter;
 
-@Introspected
+@Serdeable
+@Data
+@Setter
 public class Author {
 
-    private final String id;
+    private String id;
     private final String firstName;
     private final String lastName;
 
@@ -17,6 +21,9 @@ public class Author {
 
     public String getId() {
         return id;
+    }
+    public void setID(String id) {
+        this.id = id;
     }
 
     public String getFirstName() {

@@ -1,10 +1,14 @@
-package com.example.micronaut.domain;
+package com.example.micronaut.domain.book;
 
-import io.micronaut.core.annotation.Introspected;
+import io.micronaut.data.annotation.Id;
+import io.micronaut.data.annotation.MappedEntity;
+import io.micronaut.serde.annotation.Serdeable;
 
-@Introspected
+@Serdeable
+@MappedEntity(value = "Book_dev")
 public class Book {
 
+    @Id
     private final String id;
     private final String name;
     private final int pageCount;
