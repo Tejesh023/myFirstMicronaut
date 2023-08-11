@@ -4,6 +4,7 @@ import com.example.micronaut.service.AccountDataFetcher;
 import com.example.micronaut.service.BookServiceImpl;
 import com.example.micronaut.service.GraphQLDataFetchers;
 import graphql.GraphQL;
+import graphql.schema.DataFetchingEnvironment;
 import graphql.schema.GraphQLSchema;
 import graphql.schema.idl.RuntimeWiring;
 import graphql.schema.idl.SchemaGenerator;
